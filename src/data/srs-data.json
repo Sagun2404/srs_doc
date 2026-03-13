@@ -1,0 +1,912 @@
+{
+  "use_cases": [
+    {
+      "id": "UC-001:",
+      "title": "Create NFT",
+      "actor": "Digital Artist",
+      "precondition": "Artist has a digital artwork ready",
+      "main_flow": [
+        "1. Artist uploads artwork",
+        "2. System generates NFT metadata",
+        "3. Artist confirms details",
+        "4. System mints NFT on Ethereum"
+      ],
+      "postcondition": "NFT is minted and available for sale",
+      "linked_requirements": [
+        "FR-001",
+        "FR-002"
+      ],
+      "alternative_flows": [
+        {
+          "condition": "If artwork upload fails",
+          "action": "System displays error message",
+          "resulting_state": "Return to step 1"
+        }
+      ]
+    },
+    {
+      "id": "UC-002:",
+      "title": "Purchase NFT",
+      "actor": "Art Collector",
+      "precondition": "Collector has a funded MetaMask wallet",
+      "main_flow": [
+        "1. Collector selects NFT",
+        "2. System displays NFT details",
+        "3. Collector confirms purchase",
+        "4. System processes transaction on Ethereum"
+      ],
+      "postcondition": "NFT ownership is transferred to collector",
+      "linked_requirements": [
+        "FR-003",
+        "FR-004"
+      ],
+      "alternative_flows": [
+        {
+          "condition": "If transaction fails",
+          "action": "System queues for retry",
+          "resulting_state": "Return to step 3"
+        }
+      ]
+    }
+  ],
+  "functional_requirements": [
+    {
+      "id": "FR-001:",
+      "text": "[MUST] The system shall allow artists to upload digital artwork for NFT creation",
+      "linked_requirements": [
+        "DR-001"
+      ]
+    },
+    {
+      "id": "FR-002:",
+      "text": "[MUST] The system shall mint NFTs on the Ethereum blockchain",
+      "linked_requirements": [
+        "DSS-001"
+      ]
+    },
+    {
+      "id": "FR-003:",
+      "text": "[MUST] The system shall enable collectors to purchase NFTs using Ethereum",
+      "linked_requirements": [
+        "IR-001"
+      ]
+    },
+    {
+      "id": "FR-004:",
+      "text": "[MUST] The system shall transfer NFT ownership upon successful purchase",
+      "linked_requirements": [
+        "DSS-002"
+      ]
+    },
+    {
+      "id": "FR-005:",
+      "text": "[MUST] The system shall allow artists to list NFTs for sale on the marketplace",
+      "linked_requirements": [
+        "DR-002"
+      ]
+    },
+    {
+      "id": "FR-006:",
+      "text": "[MUST] The system shall display NFT details including price and ownership history",
+      "linked_requirements": [
+        "DR-003"
+      ]
+    },
+    {
+      "id": "FR-007:",
+      "text": "[SHOULD] The system shall support advanced auction features for NFTs",
+      "linked_requirements": [
+        "DSS-003"
+      ]
+    },
+    {
+      "id": "FR-008:",
+      "text": "[COULD] The system shall provide analytics on NFT sales and trends",
+      "linked_requirements": [
+        "NFR-P001"
+      ]
+    },
+    {
+      "id": "FR-009:",
+      "text": "[MUST] The system shall authenticate users via MetaMask",
+      "linked_requirements": [
+        "NFR-S001"
+      ]
+    },
+    {
+      "id": "FR-010:",
+      "text": "[MUST] The system shall ensure GDPR compliance for user data",
+      "linked_requirements": [
+        "NFR-S002"
+      ]
+    }
+  ],
+  "data_requirements": [
+    {
+      "id": "DR-001:",
+      "text": "Artwork metadata shall be stored on IPFS",
+      "linked_requirements": [
+        "FR-001"
+      ]
+    },
+    {
+      "id": "DR-002:",
+      "text": "NFT transaction records shall be stored on Ethereum",
+      "linked_requirements": [
+        "FR-005"
+      ]
+    },
+    {
+      "id": "DR-003:",
+      "text": "User data shall be encrypted at rest and in transit",
+      "linked_requirements": [
+        "FR-006",
+        "NFR-S002"
+      ]
+    },
+    {
+      "id": "DR-004:",
+      "text": "System shall log all transactions with timestamp and user ID",
+      "linked_requirements": [
+        "NFR-S005"
+      ]
+    },
+    {
+      "id": "DR-005:",
+      "text": "Data schema changes shall be versioned and backward compatible",
+      "linked_requirements": [
+        "NFR-M001"
+      ]
+    }
+  ],
+  "external_interface_requirements": [
+    {
+      "id": "IR-001:",
+      "text": "System shall provide a REST API for NFT transactions",
+      "linked_requirements": [
+        "FR-003",
+        "NFR-P001"
+      ]
+    },
+    {
+      "id": "IR-002:",
+      "text": "System shall integrate with MetaMask for user authentication",
+      "linked_requirements": [
+        "FR-009",
+        "NFR-S001"
+      ]
+    },
+    {
+      "id": "IR-003:",
+      "text": "Web UI shall be responsive and support modern browsers",
+      "linked_requirements": [
+        "NFR-U001"
+      ]
+    }
+  ],
+  "domain_specific_specifications": [
+    {
+      "id": "DSS-001:",
+      "domain": "blockchain",
+      "spec_type": "smart_contract",
+      "text": "NFT smart contracts shall implement ERC-721 standard"
+    },
+    {
+      "id": "DSS-002:",
+      "domain": "blockchain",
+      "spec_type": "transaction",
+      "text": "All transactions shall be confirmed on Ethereum within 15 blocks"
+    },
+    {
+      "id": "DSS-003:",
+      "domain": "blockchain",
+      "spec_type": "auction",
+      "text": "Auction smart contracts shall support bid increments and time extensions"
+    }
+  ],
+  "nfr_performance_scalability": [
+    {
+      "id": "NFR-P001:",
+      "text": "API response time shall be < 500ms at p99 under 1000 concurrent users",
+      "verification_method": "Test",
+      "linked_requirements": [
+        "FR-008"
+      ]
+    },
+    {
+      "id": "NFR-P002:",
+      "text": "System shall handle 10,000 concurrent users",
+      "verification_method": "Test",
+      "linked_requirements": [
+        "FR-010"
+      ]
+    },
+    {
+      "id": "NFR-P003:",
+      "text": "Database queries shall complete within 100ms for 95% of requests",
+      "verification_method": "Test",
+      "linked_requirements": [
+        "FR-006"
+      ]
+    },
+    {
+      "id": "NFR-P004:",
+      "text": "UI shall load within 2 seconds for 95% of users",
+      "verification_method": "Demonstration",
+      "linked_requirements": [
+        "IR-003"
+      ]
+    },
+    {
+      "id": "NFR-P005:",
+      "text": "Background jobs shall process within 5 minutes of queue submission",
+      "verification_method": "Test",
+      "linked_requirements": [
+        "FR-009"
+      ]
+    }
+  ],
+  "nfr_security_compliance": [
+    {
+      "id": "NFR-S001:",
+      "text": "User authentication shall use MetaMask with OAuth2 fallback",
+      "verification_method": "Inspection",
+      "linked_requirements": [
+        "FR-009"
+      ]
+    },
+    {
+      "id": "NFR-S002:",
+      "text": "All user data shall be encrypted with AES-256-GCM",
+      "verification_method": "Test",
+      "linked_requirements": [
+        "FR-010",
+        "DR-003"
+      ]
+    },
+    {
+      "id": "NFR-S003:",
+      "text": "System shall log all access attempts with immutable audit trail",
+      "verification_method": "Inspection",
+      "linked_requirements": [
+        "DR-004"
+      ]
+    },
+    {
+      "id": "NFR-S004:",
+      "text": "Failed login attempts shall be rate-limited to 5/min/IP",
+      "verification_method": "Test",
+      "linked_requirements": [
+        "FR-009"
+      ]
+    },
+    {
+      "id": "NFR-S005:",
+      "text": "System shall support GDPR data deletion requests",
+      "verification_method": "Test",
+      "linked_requirements": [
+        "FR-010"
+      ]
+    }
+  ],
+  "nfr_reliability_availability": [
+    {
+      "id": "NFR-R001:",
+      "text": "System shall maintain 99.9% uptime",
+      "verification_method": "Analysis",
+      "linked_requirements": [
+        "FR-001",
+        "FR-005"
+      ]
+    },
+    {
+      "id": "NFR-R002:",
+      "text": "System shall failover to backup nodes within 5 minutes",
+      "verification_method": "Test",
+      "linked_requirements": [
+        "DR-004"
+      ]
+    },
+    {
+      "id": "NFR-R003:",
+      "text": "RPO shall be \u22641 hour",
+      "verification_method": "Test",
+      "linked_requirements": [
+        "DR-004"
+      ]
+    }
+  ],
+  "nfr_usability": [
+    {
+      "id": "NFR-U001:",
+      "text": "System shall comply with WCAG 2.1 Level AA",
+      "verification_method": "Test",
+      "linked_requirements": [
+        "IR-003"
+      ]
+    },
+    {
+      "id": "NFR-U002:",
+      "text": "New users shall complete NFT purchase within 5 minutes",
+      "verification_method": "Demonstration",
+      "linked_requirements": [
+        "UC-002"
+      ]
+    },
+    {
+      "id": "NFR-U003:",
+      "text": "Error messages shall be descriptive",
+      "verification_method": "Inspection",
+      "linked_requirements": [
+        "FR-003"
+      ]
+    }
+  ],
+  "nfr_maintainability": [
+    {
+      "id": "NFR-M001:",
+      "text": "Unit test coverage shall be > 80%",
+      "verification_method": "Test",
+      "linked_requirements": [
+        "FR-001",
+        "FR-005"
+      ]
+    },
+    {
+      "id": "NFR-M002:",
+      "text": "API documentation shall be auto-generated",
+      "verification_method": "Inspection",
+      "linked_requirements": [
+        "IR-001"
+      ]
+    },
+    {
+      "id": "NFR-M003:",
+      "text": "Cyclomatic complexity shall be < 15",
+      "verification_method": "Analysis",
+      "linked_requirements": []
+    }
+  ],
+  "nfr_portability": [
+    {
+      "id": "NFR-PO001:",
+      "text": "System shall run on Linux and Windows containers",
+      "verification_method": "Demonstration",
+      "linked_requirements": []
+    },
+    {
+      "id": "NFR-PO002:",
+      "text": "Infrastructure shall be defined as code using Terraform",
+      "verification_method": "Inspection",
+      "linked_requirements": []
+    },
+    {
+      "id": "NFR-PO003:",
+      "text": "System shall be deployable on AWS and Azure",
+      "verification_method": "Demonstration",
+      "linked_requirements": []
+    }
+  ],
+  "nfr_compatibility": [
+    {
+      "id": "NFR-C001:",
+      "text": "System shall export data in CSV and JSON formats",
+      "verification_method": "Test",
+      "linked_requirements": [
+        "IR-001"
+      ]
+    },
+    {
+      "id": "NFR-C002:",
+      "text": "API shall maintain backward compatibility for 2 major versions",
+      "verification_method": "Test",
+      "linked_requirements": [
+        "IR-001"
+      ]
+    }
+  ],
+  "design_constraints": [
+    {
+      "id": "CON-001:",
+      "text": "Must use Ethereum blockchain",
+      "linked_requirements": [
+        "FR-002",
+        "DSS-001"
+      ]
+    },
+    {
+      "id": "CON-002:",
+      "text": "Must comply with ERC-721 standard",
+      "linked_requirements": [
+        "DSS-001"
+      ]
+    }
+  ],
+  "regulatory_constraints": [
+    {
+      "id": "REG-001:",
+      "text": "User data must be processed in compliance with GDPR",
+      "linked_requirements": [
+        "FR-010",
+        "NFR-S002"
+      ]
+    }
+  ],
+  "operational_requirements": [
+    {
+      "id": "OPS-001:",
+      "category": "admin_dashboard",
+      "text": "Admin panel shall support NFT management",
+      "linked_requirements": [
+        "FR-005"
+      ]
+    },
+    {
+      "id": "OPS-002:",
+      "category": "monitoring",
+      "text": "System shall alert on transaction failures",
+      "linked_requirements": [
+        "NFR-R001"
+      ]
+    },
+    {
+      "id": "OPS-003:",
+      "category": "compliance_reporting",
+      "text": "System shall generate GDPR compliance reports",
+      "linked_requirements": [
+        "NFR-S005"
+      ]
+    },
+    {
+      "id": "OPS-004:",
+      "category": "support",
+      "text": "Support dashboard shall display user activity",
+      "linked_requirements": [
+        "FR-001"
+      ]
+    },
+    {
+      "id": "OPS-005:",
+      "category": "billing",
+      "text": "System shall track transaction fees",
+      "linked_requirements": [
+        "FR-003"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "id": "ASSUME-001:",
+      "text": "Users have stable internet connection (minimum 1 Mbps)",
+      "linked_requirements": []
+    },
+    {
+      "id": "ASSUME-002:",
+      "text": "Users are using modern browsers (Chrome, Firefox, Safari, Edge - latest 2 versions)",
+      "linked_requirements": []
+    },
+    {
+      "id": "ASSUME-003:",
+      "text": "Ethereum network maintains 99.9% uptime",
+      "linked_requirements": []
+    },
+    {
+      "id": "ASSUME-004:",
+      "text": "Users have basic understanding of blockchain technology",
+      "linked_requirements": []
+    }
+  ],
+  "external_dependencies": [
+    {
+      "id": "DEP-001:",
+      "text": "Ethereum Blockchain - Transaction processing - Cannot mint or transfer NFTs",
+      "linked_requirements": []
+    },
+    {
+      "id": "DEP-002:",
+      "text": "MetaMask - User authentication - Cannot authenticate users",
+      "linked_requirements": []
+    },
+    {
+      "id": "DEP-003:",
+      "text": "IPFS - Artwork storage - Cannot store or retrieve digital assets",
+      "linked_requirements": []
+    }
+  ],
+  "acceptance_criteria": [
+    {
+      "id": "AC-001:",
+      "text": "All MUST functional requirements implemented - Manual checklist verification",
+      "linked_requirements": []
+    },
+    {
+      "id": "AC-002:",
+      "text": "System handles 10,000 concurrent users - Load testing results",
+      "linked_requirements": []
+    },
+    {
+      "id": "AC-003:",
+      "text": "GDPR compliance verified - External audit report",
+      "linked_requirements": []
+    }
+  ],
+  "technical_risks": [
+    {
+      "id": "RISK-001:",
+      "text": "Ethereum gas fees increase significantly | Mitigation: Implement dynamic fee adjustment",
+      "linked_requirements": []
+    },
+    {
+      "id": "RISK-002:",
+      "text": "MetaMask API changes | Mitigation: Monitor updates and adjust integration",
+      "linked_requirements": []
+    },
+    {
+      "id": "RISK-003:",
+      "text": "IPFS downtime | Mitigation: Implement fallback storage solution",
+      "linked_requirements": []
+    }
+  ],
+  "conflict_resolutions": [
+    {
+      "id": "CONFLICT-001:",
+      "text": "GDPR right to deletion vs blockchain immutability | Resolution: Use pseudonymization for personal data",
+      "linked_requirements": []
+    }
+  ],
+  "prerequisites": [
+    {
+      "id": "PRE-001:",
+      "text": "Valid Ethereum account with sufficient ETH for transactions",
+      "linked_requirements": []
+    },
+    {
+      "id": "PRE-002:",
+      "text": "MetaMask installed and configured for user authentication",
+      "linked_requirements": []
+    },
+    {
+      "id": "PRE-003:",
+      "text": "Development team trained on blockchain and smart contract development",
+      "linked_requirements": []
+    },
+    {
+      "id": "PRE-004:",
+      "text": "IPFS nodes configured for artwork storage",
+      "linked_requirements": []
+    }
+  ],
+  "data_privacy_inventory": [
+    {
+      "id": "PII-001:",
+      "data_element": "",
+      "data_classification": "PII",
+      "encrypted_at_rest": true,
+      "encrypted_in_transit": true,
+      "retention_period": "Account lifetime + 30 days",
+      "legal_basis": "GDPR Art.6(1)(b) - Contract",
+      "deletion_mechanism": "hard_delete",
+      "linked_dr": [],
+      "field_name": "user_email",
+      "data_requirement_id": "DR-003",
+      "encryption_at_rest": true,
+      "encryption_in_transit": true
+    },
+    {
+      "id": "PII-002:",
+      "data_element": "",
+      "data_classification": "Internal",
+      "encrypted_at_rest": true,
+      "encrypted_in_transit": true,
+      "retention_period": "7 years",
+      "legal_basis": "GDPR Art.6(1)(c) - Legal obligation",
+      "deletion_mechanism": "pseudonymization",
+      "linked_dr": [],
+      "field_name": "transaction_id",
+      "data_requirement_id": "DR-004",
+      "encryption_at_rest": true,
+      "encryption_in_transit": true
+    },
+    {
+      "id": "PII-003:",
+      "data_element": "",
+      "data_classification": "Public",
+      "encrypted_at_rest": true,
+      "encrypted_in_transit": true,
+      "retention_period": "Indefinite",
+      "legal_basis": "GDPR Art.6(1)(f) - Legitimate interest",
+      "deletion_mechanism": "anonymization",
+      "linked_dr": [],
+      "field_name": "wallet_address",
+      "data_requirement_id": "DR-002",
+      "encryption_at_rest": false,
+      "encryption_in_transit": true
+    }
+  ],
+  "rbac_matrix": [
+    {
+      "persona": "",
+      "resource": "NFT",
+      "create": false,
+      "read": false,
+      "update": false,
+      "delete": false,
+      "description": "Non-Fungible Tokens on the marketplace",
+      "permissions": {
+        "Digital Artist": {
+          "create": true,
+          "read": true,
+          "update": true,
+          "delete": true
+        },
+        "Art Collector": {
+          "create": false,
+          "read": true,
+          "update": false,
+          "delete": false
+        },
+        "Blockchain Enthusiast": {
+          "create": false,
+          "read": true,
+          "update": false,
+          "delete": false
+        },
+        "Gallery Owner": {
+          "create": true,
+          "read": true,
+          "update": true,
+          "delete": true
+        },
+        "Tech-Savvy Investor": {
+          "create": false,
+          "read": true,
+          "update": false,
+          "delete": false
+        }
+      },
+      "source_requirements": [
+        "FR-001",
+        "FR-005"
+      ]
+    },
+    {
+      "persona": "",
+      "resource": "User",
+      "create": false,
+      "read": false,
+      "update": false,
+      "delete": false,
+      "description": "User account and profile data",
+      "permissions": {
+        "Digital Artist": {
+          "create": true,
+          "read": true,
+          "update": true,
+          "delete": true
+        },
+        "Art Collector": {
+          "create": true,
+          "read": true,
+          "update": true,
+          "delete": true
+        },
+        "Blockchain Enthusiast": {
+          "create": true,
+          "read": true,
+          "update": true,
+          "delete": true
+        },
+        "Gallery Owner": {
+          "create": true,
+          "read": true,
+          "update": true,
+          "delete": true
+        },
+        "Tech-Savvy Investor": {
+          "create": true,
+          "read": true,
+          "update": true,
+          "delete": true
+        }
+      },
+      "source_requirements": [
+        "FR-009"
+      ]
+    },
+    {
+      "persona": "",
+      "resource": "Transaction",
+      "create": false,
+      "read": false,
+      "update": false,
+      "delete": false,
+      "description": "NFT purchase and sale transactions",
+      "permissions": {
+        "Digital Artist": {
+          "create": true,
+          "read": true,
+          "update": false,
+          "delete": false
+        },
+        "Art Collector": {
+          "create": true,
+          "read": true,
+          "update": false,
+          "delete": false
+        },
+        "Blockchain Enthusiast": {
+          "create": false,
+          "read": true,
+          "update": false,
+          "delete": false
+        },
+        "Gallery Owner": {
+          "create": true,
+          "read": true,
+          "update": false,
+          "delete": false
+        },
+        "Tech-Savvy Investor": {
+          "create": false,
+          "read": true,
+          "update": false,
+          "delete": false
+        }
+      },
+      "source_requirements": [
+        "FR-003",
+        "FR-004"
+      ]
+    },
+    {
+      "persona": "",
+      "resource": "AuditLog",
+      "create": false,
+      "read": false,
+      "update": false,
+      "delete": false,
+      "description": "System audit trail records",
+      "permissions": {
+        "Digital Artist": {
+          "create": false,
+          "read": false,
+          "update": false,
+          "delete": false
+        },
+        "Art Collector": {
+          "create": false,
+          "read": false,
+          "update": false,
+          "delete": false
+        },
+        "Blockchain Enthusiast": {
+          "create": false,
+          "read": false,
+          "update": false,
+          "delete": false
+        },
+        "Gallery Owner": {
+          "create": false,
+          "read": false,
+          "update": false,
+          "delete": false
+        },
+        "Tech-Savvy Investor": {
+          "create": false,
+          "read": false,
+          "update": false,
+          "delete": false
+        }
+      },
+      "source_requirements": [
+        "NFR-S003"
+      ]
+    },
+    {
+      "persona": "",
+      "resource": "SystemConfig",
+      "create": false,
+      "read": false,
+      "update": false,
+      "delete": false,
+      "description": "Feature flags and system settings",
+      "permissions": {
+        "Digital Artist": {
+          "create": false,
+          "read": false,
+          "update": false,
+          "delete": false
+        },
+        "Art Collector": {
+          "create": false,
+          "read": false,
+          "update": false,
+          "delete": false
+        },
+        "Blockchain Enthusiast": {
+          "create": false,
+          "read": false,
+          "update": false,
+          "delete": false
+        },
+        "Gallery Owner": {
+          "create": false,
+          "read": false,
+          "update": false,
+          "delete": false
+        },
+        "Tech-Savvy Investor": {
+          "create": false,
+          "read": false,
+          "update": false,
+          "delete": false
+        }
+      },
+      "source_requirements": [
+        "OPS-001"
+      ]
+    },
+    {
+      "persona": "Art Collector",
+      "resource": "System Resources",
+      "create": false,
+      "read": true,
+      "update": false,
+      "delete": false,
+      "description": "",
+      "permissions": null,
+      "notes": "Auto-generated placeholder - review and update permissions"
+    },
+    {
+      "persona": "Digital Artist",
+      "resource": "System Resources",
+      "create": false,
+      "read": true,
+      "update": false,
+      "delete": false,
+      "description": "",
+      "permissions": null,
+      "notes": "Auto-generated placeholder - review and update permissions"
+    }
+  ],
+  "traceability_map": [
+    {
+      "goal_id": "GOAL-001",
+      "requirement_ids": [
+        "FR-001",
+        "FR-003",
+        "FR-005",
+        "NFR-P002"
+      ],
+      "coverage_status": "Partial",
+      "goal_description": "Launch the platform with 1,000 active users within the first 6 months",
+      "use_case_ids": [
+        "UC-001",
+        "UC-002",
+        "UC-003"
+      ],
+      "acceptance_criteria_ids": [
+        "AC-001",
+        "AC-002"
+      ]
+    }
+  ],
+  "change_log": [
+    {
+      "date": "",
+      "revision": "",
+      "description": "",
+      "approver": "",
+      "id": "2023-10-05",
+      "text": "SRS-DOC Created: Initial SRS document generated - All requirements defined - System Generated"
+    }
+  ],
+  "glossary": [
+    "['NFT: Non-Fungible Token - Unique digital asset on blockchain', 'ERC-721: Ethereum token standard for NFTs - Ensures uniqueness', 'MetaMask: Cryptocurrency wallet - Facilitates blockchain transactions', 'IPFS: InterPlanetary File System - Decentralized storage for digital assets', 'Smart Contract: Self-executing contract - Automates transactions on blockchain']"
+  ],
+  "version_info": "Version: 1.0.0 | Date: 2023-10-05 | Changes: Initial release",
+  "system_scope": "IN SCOPE: NFT creation, marketplace listing, secure transactions, user authentication, Ethereum integration. OUT OF SCOPE: Mobile app, physical art sales, non-Ethereum blockchain support. FUTURE: Advanced auction features, multi-chain support.",
+  "system_context_diagram": "ACTORS: Digital Artist, Art Collector, Blockchain Enthusiast, Gallery Owner, Tech-Savvy Investor. EXTERNAL SYSTEMS: Ethereum Blockchain, IPFS for storage, MetaMask Wallet. WRITE PATH: User \u2192 MetaMask \u2192 Smart Contract \u2192 Ethereum Blockchain. READ PATH: Ethereum Blockchain \u2192 Indexer \u2192 API \u2192 User Interface. KEY INTERFACES: Smart Contract \u2192 Ethereum (transaction processing); API \u2192 User Interface (data retrieval).",
+  "clarification": "All requirements are clear and complete.",
+  "clarification_items": []
+}

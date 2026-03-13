@@ -1,0 +1,177 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap');
+
+@import "tailwindcss";
+
+
+@theme {
+  /* Colors */
+  --color-parchment: #FCFCF9;
+  --color-deep-slate: #1F2121;
+  --color-warm-stone: #5E5240;
+  --color-sage-teal: #21808D;
+  --color-sage-teal-light: #32B8C6;
+  --color-wax-red: #C0152F;
+  --color-aged-gold: #A84B2F;
+  --color-ethereum-blue: #627EEA;
+  --color-ipfs-teal: #469EA2;
+
+  /* Fonts */
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+  --font-technical: 'Space Grotesk', monospace;
+}
+
+@layer base {
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background-color: #FCFCF9;
+    color: #1F2121;
+    line-height: 1.6;
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+}
+
+@layer components {
+
+  /* Font Classes */
+  .font-display {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+  }
+
+  .font-body {
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+
+  .font-technical {
+    font-family: 'Space Grotesk', monospace;
+  }
+
+  /* Button Styles */
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2;
+    @apply px-4 py-1.5 rounded-lg;
+    @apply font-semibold text-white text-xs;
+    @apply transition-all duration-150;
+    @apply cursor-pointer border-none;
+    background-color: #21808D;
+    box-shadow: 0 4px 12px rgba(33, 128, 141, 0.15);
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(33, 128, 141, 0.25);
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2;
+    @apply px-4 py-1.5 rounded-lg;
+    @apply font-semibold;
+    @apply transition-all duration-150;
+    @apply cursor-pointer;
+    color: #5E5240;
+    background-color: transparent;
+    border: 2px solid #5E5240;
+  }
+
+  .btn-secondary:hover {
+    background-color: #5E5240;
+    color: white;
+  }
+
+  /* Card Styles */
+  .card {
+    @apply bg-white rounded-xl p-8;
+    @apply relative overflow-hidden;
+    border: 1px solid rgba(94, 82, 64, 0.2);
+    box-shadow: 0 2px 8px rgba(31, 33, 33, 0.08);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+      box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(31, 33, 33, 0.12);
+  }
+
+  /* Section Styles */
+  .section {
+    @apply py-24 px-6;
+  }
+
+  .section-header {
+    @apply text-center mb-16;
+  }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    @apply text-4xl md:text-5xl font-bold mb-4;
+    color: #1F2121;
+  }
+
+  .section-subtitle {
+    @apply text-lg max-w-2xl mx-auto;
+    color: #5E5240;
+  }
+
+  .section-divider {
+    @apply w-24 h-0.5 mx-auto mt-6;
+    background-color: rgba(33, 128, 141, 0.3);
+  }
+
+  /* Container */
+  .container-main {
+    @apply max-w-[1200px] mx-auto;
+  }
+}
+
+
+@layer utilities {
+
+  /* Gradient Text */
+  .gradient-text {
+    background: linear-gradient(135deg, #21808D, #32B8C6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+}
+
+/* Custom scrollbar for a cleaner look */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-zinc-300 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-zinc-400;
+}
